@@ -1,0 +1,32 @@
+{
+    "id": 1,
+    "name": "café du feur",
+    "address": "20 rue du feur",
+    "places": 30,
+    "slots": [
+      {
+        "id": 1,
+        "title": "Café du feur",
+        "date": "2025-02-26T14:00:00",
+        "isAvailable": true
+      },
+      {
+        "id": 2,
+        "title": "café du feur",
+        "date": "2025-02-27T14:00:00",
+        "isAvailable": false
+      },
+      {
+        "id": 3,
+        "title": "café du bar",
+        "date": "2025-02-28T14:00:00",
+        "isAvailable": true
+      },
+      {
+        "id": 4,
+        "title": "café du coin",
+        "date": "2025-02-29T14:00:00",
+        "isAvailable": true
+      }
+    ]
+}

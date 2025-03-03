@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": "Café du stade",
+    "date": "2025-02-26T19:00:00",
+    "color": "#FF0000",
+    "isAvailable": true,
+    "cafe": {
+      "id": 1,
+      "name": "café du stade",
+      "address": "20 rue du stade",
+      "places": 20
+    }
+  },
+  {
+    "id": 2,
+    "title": "café des sport",
+    "date": "2025-02-27T19:00:00",
+    "isAvailable": false,
+    "cafe": {
+      "id": 2,
+      "name": "café du sport",
+      "address": "20 rue du sport",
+      "places": 20
+    }
+  },
+  {
+    "id": 3,
+    "title": "café du bar",
+    "date": "2025-02-28T19:00:00",
+    "isAvailable": true,
+    "cafe": {
+      "id": 1,
+      "name": "café du bar",
+      "address": "20 rue du bar",
+      "places": 20
+    }
+  },
+  {
+    "id": 4,
+    "title": "café du coin",
+    "date": "2025-02-29T19:00:00",
+    "isAvailable": true,
+    "cafe": {
+      "id": 1,
+      "name": "café du coin",
+      "address": "20 rue du coin",
+      "places": 20
+    }
+  },
+    {
+      "id": 5,
+      "title": "café du petit coin",
+      "date": "2025-02-29T20:00:00",
+      "isAvailable": true,
+      "cafe": {
+        "id": 2,
+        "name": "café du petit coin",
+        "address": "20 rue du petit coin",
+        "places": 20
+      }
+    }
+]

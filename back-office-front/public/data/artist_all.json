@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "firstName": "artist1",
+    "lastName": null,
+    "birthday": null,
+    "showPropositions": [
+      []
+    ]
+  },
+  {
+    "id": 2,
+    "firstName": "artist2",
+    "lastName": null,
+    "birthday": null,
+    "showPropositions": [
+      []
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "artist3",
+    "lastName": null,
+    "birthday": null,
+    "showPropositions": [
+      []
+    ]
+  }
+]
