@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import '../App.css';
+import Moment from 'moment';
 
 import {useEffect, useState} from 'react';
 import FullCalendar from '@fullcalendar/react';
@@ -33,12 +34,20 @@ function ComedyClubCalendar (){
     const [ eventTitle, setEventTitle ] = useState('titre du créneau');
     const [ eventDate, setEventDate ] = useState('2025-02-25');
     const [ selectedSlot, setSelectedSlot ] = useState(null);
+    const [ selectedSlotId, setSelectedSlotId ] = useState(null);
     const [selectedArtist, setSelectedArtist] = useState(null);
+    const [ comedyClubId ] = useState(1)
+    const [ comedyClub, setComedyClub ] = useState({})
+    const [ showDescription, setShowDescription ] = useState("pas de description")
+    const [ comedyclubShows, setComedyclubShows ] = useState([])
 
     function handleEventClick(slot) {
-        console.log(slot.event.extendedProps)
+
         const slotData = slot.event.extendedProps;
         setSelectedSlot(slotData);
+        console.log("selected slot",selectedSlot)
+        console.log(slot.event.id)
+        setSelectedSlotId(slot.event.id)
         setModalIsOpen(true)
     }
 
@@ -46,21 +55,48 @@ function ComedyClubCalendar (){
         console.log(selectInfo)
     }
 
-    const handleProposer = (artistId) => {
-        if (!selectedSlot) {
-            alert("Veuillez sélectionner un créneau.");
-            return;
+    const handleReserverShow = () => {
+
+        console.log("reserver show")
+        console.log(selectedSlotId)
+
+        const newShow = {
+            comedy_club: comedyClub,
+            description: showDescription,
+            slot: selectedSlotId
         }
 
-        console.log(artistId)
+        console.log(newShow)
+        fetch('https://backend-comedyclub.esdlyon.dev/show/new',{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newShow)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                alert("Show créer avec succes !");
+                setShowDescription("pas de description")
+                setModalIsOpen(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                alert("Error lors de la création du show !");
+            })
+    }
+
+    const handleProposer = (artistId,showId) => {
+
+        console.log(artistId,showId)
 
         const proposalData = {
-            show: selectedSlot.id,
+            show: showId,
             artist: artistId,
             status: "pending"
         };
 
-        fetch('https://localhost:8000/show-proposition/new', {
+        fetch('https://backend-comedyclub.esdlyon.dev/show-proposition/new', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,6 +105,7 @@ function ComedyClubCalendar (){
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 console.log("Proposition envoyée:", data);
                 alert("Proposition envoyée avec succès !");
             })
@@ -80,7 +117,7 @@ function ComedyClubCalendar (){
 
 
     useEffect(() => {
-        fetch('https://localhost:8000/slot/all')
+        fetch('https://backend-comedyclub.esdlyon.dev/slot/all')
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
@@ -92,12 +129,23 @@ function ComedyClubCalendar (){
                 setIsLoading(false);
             });
 
-        fetch('https://localhost:8000/artist/all')
+        fetch('https://backend-comedyclub.esdlyon.dev/artist/all')
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
                 setArtists(data);
                 setIsLoading(false);
+            })
+            .catch((err) => {
+                setError(err);
+                setIsLoading(false);
+            });
+
+        fetch(`https://backend-comedyclub.esdlyon.dev/comedyclub/${comedyClubId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setComedyClub(data)
+                setComedyclubShows(data.shows)
             })
             .catch((err) => {
                 setError(err);
@@ -113,12 +161,9 @@ function ComedyClubCalendar (){
 
     return(
         <>
-            <button
-                className="btn btn-primary"
-                onClick={()=> setModalIsOpen(true)}
-            >
-                Ouvrir le modal
-            </button>
+            <div>
+                <h1>Calendrier</h1>
+            </div>
 
             <div className="full-calendar-container">
                 <FullCalendar
@@ -133,6 +178,32 @@ function ComedyClubCalendar (){
                     eventClick={handleEventClick}
                     dateClick={handleDateClick}
                 />
+            </div>
+
+            <div className="mx-5">
+                <h1 className="my-5">Mes shows</h1>
+                { comedyclubShows.map((show)=> (
+                    <div className="form-control" key={show.id}>
+                        <h3>{show.description}</h3>
+                        <h6 className="text-muted">{show.showTime}</h6>
+
+                        <div className="my-3 d-flex flex-column">
+                            <h3 className="my-3">Proposer aux artistes</h3>
+                            <ul className="space-y-2">
+                                {artists.map((artist) => (
+                                    <li key={artist.id} className="border p-2 rounded bg-gray-100">
+                                        <h3 className="text-lg font-semibold">{artist.firstName} {artist.lastName}</h3>
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => handleProposer(artist.id,show.id)}
+                                        >proposer</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                    </div>
+                ))}
             </div>
 
             <Modal
@@ -160,22 +231,16 @@ function ComedyClubCalendar (){
 
 
 
+
+
+
                 <div className="d-flex flex-column justify-content-between  w-75 h-75">
 
-                    <div className="my-3 d-flex flex-column">
-                        <h3>Proposer aux artistes</h3>
-                        <ul className="space-y-2">
-                            {artists.map((artist) => (
-                                <li key={artist.id} className="border p-2 rounded bg-gray-100">
-                                    <h3 className="text-lg font-semibold">Name : {artist.firstName}</h3>
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => handleProposer(artist.id)}
-                                    >proposer</button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+
+                    <label> Description </label>
+                    <input
+                        onChange={(event)=> setShowDescription(event.target.value)} type="text"/>
+
                     <div className="d-flex justify-content-center">
                         <button
                             onClick={() => setModalIsOpen(false)}
@@ -183,6 +248,7 @@ function ComedyClubCalendar (){
                         > Fermer </button>
                         <button
                             className="btn btn-success mx-3"
+                            onClick={() => handleReserverShow()}
                         > Reserver </button>
                     </div>
                 </div>

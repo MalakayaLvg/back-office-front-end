@@ -2,7 +2,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">Home</a>
+                <a className="navbar-brand" href="/cafe">Home</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -13,13 +13,16 @@ const Navbar = () => {
                             <a className="nav-link active" aria-current="page" href="/cafe">Cafe</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/about">About</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/test">Test</a>
-                        </li>
-                        <li className="nav-item">
                             <a className="nav-link active" aria-current="page" href="/comedyclub">Comedy Club</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link active" aria-current="page" href="/profile">Profile</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link active" aria-current="page" href="/register">Register</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link active" aria-current="page" href="/login">Login</a>
                         </li>
                     </ul>
                 </div>

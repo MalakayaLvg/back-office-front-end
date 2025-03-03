@@ -11,6 +11,7 @@ Modal.setAppElement("#root");
 function CafeCalendar (){
 
     //CALENDAR
+    const [ cafeId ] = useState(1)
     const [ slots, setSlots ] = useState([])
     const [ cafe, setCafe ] = useState([])
     const [slotTime, setSlotTime] = useState('titre du créneau');
@@ -22,6 +23,7 @@ function CafeCalendar (){
         console.log(clickInfo.event.extendedProps)
         if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
             const eventId = clickInfo.event.id;
+            console.log(eventId)
 
 
 
@@ -63,7 +65,7 @@ function CafeCalendar (){
             date: newSlotDate.toISOString()
         };
         console.log(newSlot)
-        fetch('https://localhost:8000/slot/new/venue/1', {
+        fetch(`https://localhost:8000/slot/new/venue/${cafeId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,7 +89,7 @@ function CafeCalendar (){
 
     useEffect(() => {
         console.log("useeffect")
-        fetch('https://localhost:8000/venue/1')
+        fetch(`https://backend-comedyclub.esdlyon.dev/venue/${cafeId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
@@ -99,7 +101,7 @@ function CafeCalendar (){
                 setError('Erreur lors du chargement du café');
                 setIsLoading(false);
             });
-    },[]);
+    },[slots]);
 
 
     //MODAL

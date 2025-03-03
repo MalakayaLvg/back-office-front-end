@@ -1,9 +1,8 @@
-import "../App.css";
 
 const Home = () => {
     return (
         <div>
-            <h2>Home page</h2>
+            <h2>Back Office</h2>
         </div>
     )
 }
